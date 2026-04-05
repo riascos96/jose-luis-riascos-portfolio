@@ -32,12 +32,28 @@ function normalizeUrl(url: string) {
   return `https://${url}`.replace(/\/$/, "");
 }
 
+function firstNonEmpty(...values: Array<string | undefined | null>) {
+  return values.find((value) => value && value.trim().length > 0)?.trim();
+}
+
 export function getSiteUrl() {
+  const githubRepository = process.env.GITHUB_REPOSITORY;
+  const githubOwner =
+    process.env.GITHUB_REPOSITORY_OWNER ?? githubRepository?.split("/")[0] ?? null;
+  const githubRepoName = githubRepository?.split("/")[1] ?? null;
+  const githubPagesUrl =
+    githubOwner && githubRepoName
+      ? `https://${githubOwner}.github.io/${githubRepoName}`
+      : null;
+
   const rawUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    process.env.SITE_URL ??
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ??
-    process.env.VERCEL_URL ??
+    firstNonEmpty(
+      process.env.NEXT_PUBLIC_SITE_URL,
+      process.env.SITE_URL,
+      process.env.VERCEL_PROJECT_PRODUCTION_URL,
+      process.env.VERCEL_URL
+    ) ??
+    githubPagesUrl ??
     "http://localhost:3000";
 
   return normalizeUrl(rawUrl);

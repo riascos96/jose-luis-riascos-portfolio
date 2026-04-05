@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 import { profile } from "@/lib/portfolio-content";
 
+export const dynamic = "force-static";
+
 export const size = {
   width: 1200,
   height: 630,

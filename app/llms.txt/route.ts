@@ -1,6 +1,8 @@
 import { profile } from "@/lib/portfolio-content";
 import { getSiteUrl } from "@/lib/site";
 
+export const dynamic = "force-static";
+
 export function GET() {
   const siteUrl = getSiteUrl();
   const content = [
