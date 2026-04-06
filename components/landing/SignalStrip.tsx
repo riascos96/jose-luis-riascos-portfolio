@@ -17,19 +17,36 @@ export function SignalStrip() {
     () => {
       const mm = gsap.matchMedia();
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from("[data-metric-card]", {
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top 86%",
-            toggleActions: "restart none restart reset",
-          },
-          y: 20,
-          autoAlpha: 0,
-          stagger: 0.08,
-          duration: 0.7,
-          ease: "power3.out",
+      const animateCards = (start: string, mobile = false) => {
+        const cards = gsap.utils.toArray<HTMLElement>("[data-metric-card]", root.current);
+
+        cards.forEach((card, index) => {
+          gsap.from(card, {
+            scrollTrigger: {
+              trigger: card,
+              start,
+              toggleActions: "restart none restart reset",
+            },
+            y: mobile ? 30 : 24,
+            x: mobile ? (index % 2 === 0 ? -12 : 12) : 0,
+            scale: 0.965,
+            autoAlpha: 0,
+            duration: 0.72,
+            ease: "power3.out",
+          });
         });
+      };
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set("[data-metric-card]", { clearProps: "all" });
+      });
+
+      mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+        animateCards("top 92%", true);
+      });
+
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        animateCards("top 84%");
       });
 
       return () => mm.revert();

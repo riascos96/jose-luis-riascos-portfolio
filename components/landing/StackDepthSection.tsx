@@ -31,7 +31,7 @@ export function StackDepthSection() {
         gsap.from("[data-credentials-intro-item]", {
           scrollTrigger: {
             trigger: root.current,
-            start: "top 84%",
+            start: "top 78%",
             toggleActions: "restart none restart reset",
           },
           y: 26,
@@ -47,7 +47,7 @@ export function StackDepthSection() {
           gsap.from(card, {
             scrollTrigger: {
               trigger: card,
-              start: "top 86%",
+              start: "top 80%",
               toggleActions: "restart none restart reset",
             },
             x: index % 2 === 0 ? -26 : 26,
@@ -63,7 +63,7 @@ export function StackDepthSection() {
           gsap.from(entries, {
             scrollTrigger: {
               trigger: card,
-              start: "top 80%",
+              start: "top 74%",
               toggleActions: "restart none restart reset",
             },
             y: 16,

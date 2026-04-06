@@ -18,30 +18,37 @@ export function CapabilityMatrix() {
     () => {
       const mm = gsap.matchMedia();
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const animateCards = (elements: Element[]) => {
-          gsap.fromTo(
-            elements,
-            { y: 24, autoAlpha: 0 },
-            {
-              y: 0,
-              autoAlpha: 1,
-              duration: 0.74,
-              stagger: 0.1,
-              ease: "power3.out",
-              overwrite: true,
-            }
-          );
-        };
+      const animateCards = (start: string, mobile = false) => {
+        const cards = gsap.utils.toArray<HTMLElement>("[data-strength-card]", root.current);
 
-        ScrollTrigger.batch("[data-strength-card]", {
-          start: "top 84%",
-          onEnter: animateCards,
-          onEnterBack: animateCards,
-          onLeaveBack: (elements) => {
-            gsap.set(elements, { y: 24, autoAlpha: 0 });
-          },
+        cards.forEach((card, index) => {
+          gsap.from(card, {
+            scrollTrigger: {
+              trigger: card,
+              start,
+              toggleActions: "restart none restart reset",
+            },
+            y: mobile ? 32 : 26,
+            x: mobile ? (index % 2 === 0 ? -12 : 12) : 0,
+            scale: 0.968,
+            autoAlpha: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            overwrite: "auto",
+          });
         });
+      };
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set("[data-strength-card]", { clearProps: "all" });
+      });
+
+      mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+        animateCards("top 90%", true);
+      });
+
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        animateCards("top 84%");
       });
 
       return () => mm.revert();

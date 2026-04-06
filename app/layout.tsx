@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     default: `${profile.name} | ${profile.jobTitle}`,
     template: `%s | ${profile.name}`,
   },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: ["/icon.svg"],
+    apple: ["/icon.svg"],
+  },
   description: profile.seoDescription,
   alternates: {
     canonical: "/",

@@ -52,11 +52,11 @@ export function ContactBlock() {
     () => {
       const mm = gsap.matchMedia();
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const animateIntro = (start: string) => {
         gsap.from("[data-contact-item]", {
           scrollTrigger: {
             trigger: root.current,
-            start: "top 84%",
+            start,
             toggleActions: "restart none restart reset",
           },
           y: 20,
@@ -65,6 +65,40 @@ export function ContactBlock() {
           duration: 0.68,
           ease: "power3.out",
         });
+      };
+
+      const animateCards = (start: string, mobile = false) => {
+        const cards = gsap.utils.toArray<HTMLElement>("[data-contact-card]", root.current);
+
+        cards.forEach((card, index) => {
+          gsap.from(card, {
+            scrollTrigger: {
+              trigger: card,
+              start,
+              toggleActions: "restart none restart reset",
+            },
+            y: 24,
+            x: mobile ? (index % 2 === 0 ? -10 : 10) : 0,
+            scale: 0.97,
+            autoAlpha: 0,
+            duration: 0.64,
+            ease: "power3.out",
+          });
+        });
+      };
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set("[data-contact-item], [data-contact-card]", { clearProps: "all" });
+      });
+
+      mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+        animateIntro("top 88%");
+        animateCards("top 92%", true);
+      });
+
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        animateIntro("top 84%");
+        animateCards("top 86%");
       });
 
       return () => mm.revert();
@@ -120,6 +154,7 @@ export function ContactBlock() {
                 {actionCards.map((action) => (
                   <a
                     key={action.label}
+                    data-contact-card
                     href={action.href}
                     target={action.external ? "_blank" : undefined}
                     rel={action.external ? "noreferrer" : undefined}

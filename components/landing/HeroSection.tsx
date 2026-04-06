@@ -32,7 +32,9 @@ export function HeroSection({ portraitSrc }: HeroSectionProps) {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set("[data-hero-item]", { clearProps: "all" });
+        gsap.set("[data-hero-item], [data-quick-fact], [data-chip]", {
+          clearProps: "all",
+        });
       });
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -48,8 +50,6 @@ export function HeroSection({ portraitSrc }: HeroSectionProps) {
           .from("[data-visual]", { x: 30, autoAlpha: 0, duration: 0.92 }, "-=0.68")
           .from("[data-portrait-stage]", { y: 20, autoAlpha: 0, duration: 0.9 }, "-=0.72")
           .from("[data-cta]", { y: 14, autoAlpha: 0, stagger: 0.08 }, "-=0.46")
-          .from("[data-quick-fact]", { y: 12, autoAlpha: 0, stagger: 0.05 }, "-=0.36")
-          .from("[data-chip]", { y: 12, autoAlpha: 0, stagger: 0.04 }, "-=0.34")
           .to(
             "[data-ambient]",
             {
@@ -69,6 +69,42 @@ export function HeroSection({ portraitSrc }: HeroSectionProps) {
             end: "bottom top",
             scrub: 0.9,
           },
+        });
+
+        const quickFacts = gsap.utils.toArray<HTMLElement>("[data-quick-fact]", root.current);
+        const chips = gsap.utils.toArray<HTMLElement>("[data-chip]", root.current);
+        const quickFactsStart = window.innerWidth < 768 ? "top 92%" : "top 86%";
+        const chipsStart = window.innerWidth < 768 ? "top 92%" : "top 86%";
+
+        quickFacts.forEach((fact, index) => {
+          gsap.from(fact, {
+            scrollTrigger: {
+              trigger: fact,
+              start: quickFactsStart,
+              toggleActions: "restart none restart reset",
+            },
+            y: 18,
+            x: window.innerWidth < 768 ? (index % 2 === 0 ? -10 : 10) : 0,
+            autoAlpha: 0,
+            duration: 0.54,
+            ease: "power3.out",
+          });
+        });
+
+        chips.forEach((chip, index) => {
+          gsap.from(chip, {
+            scrollTrigger: {
+              trigger: chip,
+              start: chipsStart,
+              toggleActions: "restart none restart reset",
+            },
+            y: 16,
+            x: window.innerWidth < 768 ? (index % 2 === 0 ? -10 : 10) : 0,
+            autoAlpha: 0,
+            duration: 0.46,
+            ease: "power2.out",
+            delay: index * 0.02,
+          });
         });
       });
 
