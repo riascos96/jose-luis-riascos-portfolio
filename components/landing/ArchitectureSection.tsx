@@ -128,12 +128,13 @@ export function ArchitectureSection() {
                 <div
                   key={fact.label}
                   data-fact-item
+                  tabIndex={0}
                   className="card-hover-blue group flex h-full flex-col rounded-[1.3rem] border border-(--line) bg-white/72 px-4 py-4"
                 >
-                  <dt className="text-[0.7rem] uppercase tracking-[0.2em] text-(--muted) transition-colors duration-200 group-hover:text-white/70">
+                  <dt className="card-hover-subtle text-[0.7rem] uppercase tracking-[0.2em] text-(--muted) transition-colors duration-200 group-hover:text-white/70 group-focus-within:text-white/70 group-active:text-white/70">
                     {fact.label}
                   </dt>
-                  <dd className="mt-2 text-sm leading-7 text-(--ink) transition-colors duration-200 group-hover:text-white">
+                  <dd className="card-hover-primary mt-2 text-sm leading-7 text-(--ink) transition-colors duration-200 group-hover:text-white group-focus-within:text-white group-active:text-white">
                     {fact.value}
                   </dd>
                 </div>
@@ -162,7 +163,7 @@ export function ArchitectureSection() {
                   >
                     <div className="flex items-center gap-4">
                       <span
-                        className="chip inline-flex min-w-[4.2rem] items-center justify-center border-[#d7e8f4] bg-[#f6fbfe] px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] !text-[#0077b6] hover:!text-white"
+                        className="chip inline-flex min-w-[4.2rem] items-center justify-center border-[#d7e8f4] bg-[#f6fbfe] px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] !text-[#0077b6] hover:!text-white active:!text-white focus-visible:!text-white"
                       >
                         {domain.code}
                       </span>
@@ -180,7 +181,7 @@ export function ArchitectureSection() {
                         <span
                           key={skill}
                           data-domain-chip
-                          className="chip border-[#d7e8f4] bg-[#f6fbfe] !text-[#0077b6] hover:!text-white"
+                          className="chip border-[#d7e8f4] bg-[#f6fbfe] !text-[#0077b6] hover:!text-white active:!text-white focus-visible:!text-white"
                         >
                           {skill}
                         </span>
