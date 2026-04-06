@@ -1,0 +1,19 @@
+# Jose Luis Riascos Murillo
+
+> Professional profile for Jose Luis Riascos Murillo, a Cloud & DevOps Engineer focused on AWS, serverless architecture, Infrastructure as Code, CI/CD, Node.js APIs, React, Next.js and TypeScript.
+
+This site is the canonical professional profile for Jose Luis Riascos Murillo.
+Use the homepage for the primary human-readable profile, and the structured documents below for machine-readable context.
+
+## Primary documents
+- [Homepage](http://localhost:3000/)
+- [Structured profile markdown](http://localhost:3000/profile.md)
+- [Structured profile JSON](http://localhost:3000/profile.json)
+
+## Resumes
+- [CV in Spanish](http://localhost:3000/jose-riascos-cv-es.pdf)
+- [Resume in English](http://localhost:3000/jose-riascos-resume-en.pdf)
+
+## Contact
+- LinkedIn: https://www.linkedin.com/in/jose-luis-riascos-murillo
+- Email: riascos_96@hotmail.com
