@@ -29,23 +29,6 @@ export function StackDepthSection() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        createDownwardReveal({
-          target: gsap.utils.toArray<HTMLElement>("[data-credentials-intro-item]", root.current),
-          trigger: root.current,
-          start: "top 78%",
-          from: {
-            y: 26,
-            autoAlpha: 0,
-          },
-          to: {
-            y: 0,
-            autoAlpha: 1,
-            stagger: 0.08,
-            duration: 0.7,
-            ease: "power3.out",
-          },
-        });
-
         const cards = gsap.utils.toArray<HTMLElement>("[data-credential-card]");
 
         cards.forEach((card, index) => {
