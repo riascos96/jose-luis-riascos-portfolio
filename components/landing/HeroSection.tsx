@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { createDownwardReveal } from "@/lib/gsap-scroll-reveal";
 import { usePortfolioLocale } from "./PortfolioLocaleProvider";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -77,33 +78,41 @@ export function HeroSection({ portraitSrc }: HeroSectionProps) {
         const chipsStart = window.innerWidth < 768 ? "top 92%" : "top 86%";
 
         quickFacts.forEach((fact, index) => {
-          gsap.from(fact, {
-            scrollTrigger: {
-              trigger: fact,
-              start: quickFactsStart,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: fact,
+            start: quickFactsStart,
+            from: {
+              y: 18,
+              x: window.innerWidth < 768 ? (index % 2 === 0 ? -10 : 10) : 0,
+              autoAlpha: 0,
             },
-            y: 18,
-            x: window.innerWidth < 768 ? (index % 2 === 0 ? -10 : 10) : 0,
-            autoAlpha: 0,
-            duration: 0.54,
-            ease: "power3.out",
+            to: {
+              x: 0,
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.54,
+              ease: "power3.out",
+            },
           });
         });
 
         chips.forEach((chip, index) => {
-          gsap.from(chip, {
-            scrollTrigger: {
-              trigger: chip,
-              start: chipsStart,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: chip,
+            start: chipsStart,
+            from: {
+              y: 16,
+              x: window.innerWidth < 768 ? (index % 2 === 0 ? -10 : 10) : 0,
+              autoAlpha: 0,
             },
-            y: 16,
-            x: window.innerWidth < 768 ? (index % 2 === 0 ? -10 : 10) : 0,
-            autoAlpha: 0,
-            duration: 0.46,
-            ease: "power2.out",
-            delay: index * 0.02,
+            to: {
+              x: 0,
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.46,
+              ease: "power2.out",
+              delay: index * 0.02,
+            },
           });
         });
       });

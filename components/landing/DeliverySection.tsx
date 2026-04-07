@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { createDownwardReveal } from "@/lib/gsap-scroll-reveal";
 import { SectionHeading } from "./SectionHeading";
 import { usePortfolioLocale } from "./PortfolioLocaleProvider";
 
@@ -39,30 +40,38 @@ export function DeliverySection() {
         cards.forEach((card, index) => {
           const marker = card.querySelector<HTMLElement>("[data-experience-marker]");
 
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start: "top 84%",
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: card,
+            start: "top 84%",
+            from: {
+              x: index % 2 === 0 ? -18 : 18,
+              y: 28,
+              autoAlpha: 0,
             },
-            x: index % 2 === 0 ? -18 : 18,
-            y: 28,
-            autoAlpha: 0,
-            duration: 0.82,
-            ease: "power3.out",
+            to: {
+              x: 0,
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.82,
+              ease: "power3.out",
+            },
           });
 
           if (marker) {
-            gsap.from(marker, {
-              scrollTrigger: {
-                trigger: card,
-                start: "top 86%",
-                toggleActions: "restart none restart reset",
+            createDownwardReveal({
+              target: marker,
+              trigger: card,
+              start: "top 86%",
+              from: {
+                scale: 0.88,
+                autoAlpha: 0,
               },
-              scale: 0.88,
-              autoAlpha: 0,
-              duration: 0.5,
-              ease: "power2.out",
+              to: {
+                scale: 1,
+                autoAlpha: 1,
+                duration: 0.5,
+                ease: "power2.out",
+              },
             });
           }
         });
@@ -159,17 +168,21 @@ export function DeliverySection() {
         const cards = gsap.utils.toArray<HTMLElement>("[data-experience-card]", root.current);
 
         cards.forEach((card, index) => {
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start: "top 90%",
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: card,
+            start: "top 90%",
+            from: {
+              y: 34,
+              x: index % 2 === 0 ? -12 : 12,
+              autoAlpha: 0,
             },
-            y: 34,
-            x: index % 2 === 0 ? -12 : 12,
-            autoAlpha: 0,
-            duration: 0.82,
-            ease: "power3.out",
+            to: {
+              x: 0,
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.82,
+              ease: "power3.out",
+            },
           });
         });
       };

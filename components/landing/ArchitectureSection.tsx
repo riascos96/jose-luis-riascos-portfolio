@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { createDownwardReveal } from "@/lib/gsap-scroll-reveal";
 import { SectionHeading } from "./SectionHeading";
 import { usePortfolioLocale } from "./PortfolioLocaleProvider";
 
@@ -25,16 +26,19 @@ export function ArchitectureSection() {
         );
 
         summaryParagraphs.forEach((paragraph) => {
-          gsap.from(paragraph, {
-            scrollTrigger: {
-              trigger: paragraph,
-              start,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: paragraph,
+            start,
+            from: {
+              y: 22,
+              autoAlpha: 0,
             },
-            y: 22,
-            autoAlpha: 0,
-            duration: 0.7,
-            ease: "power3.out",
+            to: {
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.7,
+              ease: "power3.out",
+            },
           });
         });
       };
@@ -43,18 +47,23 @@ export function ArchitectureSection() {
         const factItems = gsap.utils.toArray<HTMLElement>("[data-fact-item]", root.current);
 
         factItems.forEach((item, index) => {
-          gsap.from(item, {
-            scrollTrigger: {
-              trigger: item,
-              start,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: item,
+            start,
+            from: {
+              y: 18,
+              x: mobile ? (index % 2 === 0 ? -10 : 10) : 0,
+              scale: 0.975,
+              autoAlpha: 0,
             },
-            y: 18,
-            x: mobile ? (index % 2 === 0 ? -10 : 10) : 0,
-            scale: 0.975,
-            autoAlpha: 0,
-            duration: 0.56,
-            ease: "power2.out",
+            to: {
+              x: 0,
+              y: 0,
+              scale: 1,
+              autoAlpha: 1,
+              duration: 0.56,
+              ease: "power2.out",
+            },
           });
         });
       };
@@ -65,31 +74,40 @@ export function ArchitectureSection() {
         domainCards.forEach((card, index) => {
           const chips = card.querySelectorAll<HTMLElement>("[data-domain-chip]");
 
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start: cardStart,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: card,
+            start: cardStart,
+            from: {
+              y: 24,
+              x: mobile ? (index % 2 === 0 ? -12 : 12) : 0,
+              scale: 0.97,
+              autoAlpha: 0,
             },
-            y: 24,
-            x: mobile ? (index % 2 === 0 ? -12 : 12) : 0,
-            scale: 0.97,
-            autoAlpha: 0,
-            duration: 0.64,
-            ease: "power3.out",
+            to: {
+              x: 0,
+              y: 0,
+              scale: 1,
+              autoAlpha: 1,
+              duration: 0.64,
+              ease: "power3.out",
+            },
           });
 
-          gsap.from(chips, {
-            scrollTrigger: {
-              trigger: card,
-              start: chipStart,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: chips,
+            trigger: card,
+            start: chipStart,
+            from: {
+              y: 12,
+              autoAlpha: 0,
             },
-            y: 12,
-            autoAlpha: 0,
-            stagger: 0.04,
-            duration: 0.38,
-            ease: "power2.out",
+            to: {
+              y: 0,
+              autoAlpha: 1,
+              stagger: 0.04,
+              duration: 0.38,
+              ease: "power2.out",
+            },
           });
         });
       };

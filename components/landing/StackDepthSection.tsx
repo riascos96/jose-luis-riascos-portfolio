@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { createDownwardReveal } from "@/lib/gsap-scroll-reveal";
 import { SectionHeading } from "./SectionHeading";
 import { usePortfolioLocale } from "./PortfolioLocaleProvider";
 
@@ -28,49 +29,62 @@ export function StackDepthSection() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from("[data-credentials-intro-item]", {
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top 78%",
-            toggleActions: "restart none restart reset",
+        createDownwardReveal({
+          target: gsap.utils.toArray<HTMLElement>("[data-credentials-intro-item]", root.current),
+          trigger: root.current,
+          start: "top 78%",
+          from: {
+            y: 26,
+            autoAlpha: 0,
           },
-          y: 26,
-          autoAlpha: 0,
-          stagger: 0.08,
-          duration: 0.7,
-          ease: "power3.out",
+          to: {
+            y: 0,
+            autoAlpha: 1,
+            stagger: 0.08,
+            duration: 0.7,
+            ease: "power3.out",
+          },
         });
 
         const cards = gsap.utils.toArray<HTMLElement>("[data-credential-card]");
 
         cards.forEach((card, index) => {
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start: "top 80%",
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: card,
+            start: "top 80%",
+            from: {
+              x: index % 2 === 0 ? -26 : 26,
+              y: 34,
+              scale: 0.965,
+              autoAlpha: 0,
             },
-            x: index % 2 === 0 ? -26 : 26,
-            y: 34,
-            scale: 0.965,
-            autoAlpha: 0,
-            duration: 0.86,
-            ease: "power3.out",
+            to: {
+              x: 0,
+              y: 0,
+              scale: 1,
+              autoAlpha: 1,
+              duration: 0.86,
+              ease: "power3.out",
+            },
           });
 
           const entries = card.querySelectorAll<HTMLElement>("[data-credential-entry]");
 
-          gsap.from(entries, {
-            scrollTrigger: {
-              trigger: card,
-              start: "top 74%",
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: entries,
+            trigger: card,
+            start: "top 74%",
+            from: {
+              y: 16,
+              autoAlpha: 0,
             },
-            y: 16,
-            autoAlpha: 0,
-            stagger: 0.06,
-            duration: 0.5,
-            ease: "power2.out",
+            to: {
+              y: 0,
+              autoAlpha: 1,
+              stagger: 0.06,
+              duration: 0.5,
+              ease: "power2.out",
+            },
           });
         });
 

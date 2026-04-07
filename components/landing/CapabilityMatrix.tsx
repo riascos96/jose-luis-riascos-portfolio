@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { createDownwardReveal } from "@/lib/gsap-scroll-reveal";
 import { SectionHeading } from "./SectionHeading";
 import { usePortfolioLocale } from "./PortfolioLocaleProvider";
 
@@ -22,19 +23,23 @@ export function CapabilityMatrix() {
         const cards = gsap.utils.toArray<HTMLElement>("[data-strength-card]", root.current);
 
         cards.forEach((card, index) => {
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: card,
+            start,
+            from: {
+              y: mobile ? 32 : 26,
+              x: mobile ? (index % 2 === 0 ? -12 : 12) : 0,
+              scale: 0.968,
+              autoAlpha: 0,
             },
-            y: mobile ? 32 : 26,
-            x: mobile ? (index % 2 === 0 ? -12 : 12) : 0,
-            scale: 0.968,
-            autoAlpha: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            overwrite: "auto",
+            to: {
+              x: 0,
+              y: 0,
+              scale: 1,
+              autoAlpha: 1,
+              duration: 0.8,
+              ease: "power3.out",
+            },
           });
         });
       };

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { createDownwardReveal } from "@/lib/gsap-scroll-reveal";
 import { usePortfolioLocale } from "./PortfolioLocaleProvider";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -53,17 +54,23 @@ export function ContactBlock() {
       const mm = gsap.matchMedia();
 
       const animateIntro = (start: string) => {
-        gsap.from("[data-contact-item]", {
-          scrollTrigger: {
-            trigger: root.current,
-            start,
-            toggleActions: "restart none restart reset",
+        const items = gsap.utils.toArray<HTMLElement>("[data-contact-item]", root.current);
+
+        createDownwardReveal({
+          target: items,
+          trigger: root.current,
+          start,
+          from: {
+            y: 20,
+            autoAlpha: 0,
           },
-          y: 20,
-          autoAlpha: 0,
-          stagger: 0.08,
-          duration: 0.68,
-          ease: "power3.out",
+          to: {
+            y: 0,
+            autoAlpha: 1,
+            stagger: 0.08,
+            duration: 0.68,
+            ease: "power3.out",
+          },
         });
       };
 
@@ -71,18 +78,23 @@ export function ContactBlock() {
         const cards = gsap.utils.toArray<HTMLElement>("[data-contact-card]", root.current);
 
         cards.forEach((card, index) => {
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: card,
+            start,
+            from: {
+              y: 24,
+              x: mobile ? (index % 2 === 0 ? -10 : 10) : 0,
+              scale: 0.97,
+              autoAlpha: 0,
             },
-            y: 24,
-            x: mobile ? (index % 2 === 0 ? -10 : 10) : 0,
-            scale: 0.97,
-            autoAlpha: 0,
-            duration: 0.64,
-            ease: "power3.out",
+            to: {
+              x: 0,
+              y: 0,
+              scale: 1,
+              autoAlpha: 1,
+              duration: 0.64,
+              ease: "power3.out",
+            },
           });
         });
       };

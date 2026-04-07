@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { createDownwardReveal } from "@/lib/gsap-scroll-reveal";
 import { usePortfolioLocale } from "./PortfolioLocaleProvider";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -21,18 +22,23 @@ export function SignalStrip() {
         const cards = gsap.utils.toArray<HTMLElement>("[data-metric-card]", root.current);
 
         cards.forEach((card, index) => {
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start,
-              toggleActions: "restart none restart reset",
+          createDownwardReveal({
+            target: card,
+            start,
+            from: {
+              y: mobile ? 30 : 24,
+              x: mobile ? (index % 2 === 0 ? -12 : 12) : 0,
+              scale: 0.965,
+              autoAlpha: 0,
             },
-            y: mobile ? 30 : 24,
-            x: mobile ? (index % 2 === 0 ? -12 : 12) : 0,
-            scale: 0.965,
-            autoAlpha: 0,
-            duration: 0.72,
-            ease: "power3.out",
+            to: {
+              x: 0,
+              y: 0,
+              scale: 1,
+              autoAlpha: 1,
+              duration: 0.72,
+              ease: "power3.out",
+            },
           });
         });
       };
